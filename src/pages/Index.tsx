@@ -29,8 +29,7 @@ const Index = () => {
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
               className="inline-flex items-center gap-2"
             >
-              <span className="inline-block h-5 w-5 rounded-sm bg-white/90" aria-hidden />
-              <span className="text-white/90 text-sm font-semibold tracking-tight">arabfr</span>
+              <img src="logo.png" alt="Your Style" className="h-20 w-auto" />
             </button>
           </div>
 
@@ -64,7 +63,7 @@ const Index = () => {
           playsInline
           poster={backgroundUrl}
         >
-          <source src="/hero.mp4" type="video/mp4" />
+          <source src="hero.mp4" type="video/mp4" />
           <source src="https://samplelib.com/lib/preview/mp4/sample-960x540.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
