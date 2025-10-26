@@ -5,9 +5,7 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  // Use relative paths in the built files so they work on Netlify when
-  // deploying the dist folder directly (drag-and-drop)
-  base: './',
+  base: '/',
   server: {
     host: "::",
     port: 8080,
