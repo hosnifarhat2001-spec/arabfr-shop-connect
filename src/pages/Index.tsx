@@ -4,11 +4,14 @@ import { ProductCard } from '@/components/ProductCard';
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { Menu, X } from 'lucide-react';
 
 const Index = () => {
   const { t } = useLanguage();
   const { products, loading } = useProducts();
   const navigate = useNavigate();
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   const backgroundUrl =
     "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=2069&auto=format&fit=crop";
@@ -16,7 +19,9 @@ const Index = () => {
   const scrollToProducts = () => {
     const el = document.getElementById('products');
     el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    setMobileOpen(false);
   };
+  const categories = ['New','Men','Women','Kids','Sport','Sportswear'];
 
   return (
     <div className="relative min-h-screen w-full">
@@ -35,7 +40,7 @@ const Index = () => {
 
           {/* Center: Categories */}
           <nav className="hidden sm:flex items-center justify-center gap-6">
-            {['New','Men','Women','Kids','Sport','Sportswear'].map((label) => (
+            {categories.map((label) => (
               <button
                 key={label}
                 onClick={scrollToProducts}
@@ -47,10 +52,32 @@ const Index = () => {
           </nav>
 
           {/* Right: Language */}
-          <div className="flex justify-end">
+          <div className="flex items-center justify-end gap-2">
             <LanguageSwitcher />
+            <button
+              aria-label="Toggle menu"
+              className="inline-flex items-center justify-center rounded-md p-2 text-white/90 hover:text-white sm:hidden"
+              onClick={() => setMobileOpen((v) => !v)}
+            >
+              {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            </button>
           </div>
         </div>
+        {mobileOpen && (
+          <div className="container mx-auto px-4 pb-3 sm:hidden">
+            <div className="flex flex-col gap-2">
+              {categories.map((label) => (
+                <button
+                  key={label}
+                  onClick={scrollToProducts}
+                  className="w-full rounded-md bg-white/5 px-3 py-2 text-left text-sm font-medium text-white/90 hover:bg-white/10"
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
       </header>
 
       {/* Background Video */}
