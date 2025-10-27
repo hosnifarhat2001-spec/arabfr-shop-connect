@@ -4,7 +4,7 @@ import { Product } from '@/contexts/ProductsContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { MessageCircle, Package } from 'lucide-react';
+import { MessageCircle } from 'lucide-react';
 
 interface ProductCardProps {
   product: Product;
@@ -53,10 +53,6 @@ export const ProductCard = ({ product, onEdit, onDelete, isAdmin }: ProductCardP
         <div className="flex items-center justify-between text-sm">
           <span className="font-semibold">{t('size')}:</span>
           <span>{product.size}</span>
-        </div>
-        <div className="flex items-center gap-2 text-sm">
-          <Package className="h-4 w-4" />
-          <span>{t('available')}: {product.quantity}</span>
         </div>
       </CardContent>
       <CardFooter className="gap-2">

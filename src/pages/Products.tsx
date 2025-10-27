@@ -5,6 +5,7 @@ import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import Footer from '@/components/Footer';
 
 const Products = () => {
   const { t } = useLanguage();
@@ -42,6 +43,8 @@ const Products = () => {
           </div>
         )}
       </main>
+
+      <Footer />
     </div>
   );
 };

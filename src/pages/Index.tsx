@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { Menu, X } from 'lucide-react';
+import Footer from '@/components/Footer';
 
 const Index = () => {
   const { t } = useLanguage();
@@ -141,11 +142,7 @@ const Index = () => {
       </section>
 
       {/* Footer */}
-      <footer className="relative z-10 border-t bg-background/80">
-        <div className="container mx-auto px-4 py-8 text-center text-sm text-muted-foreground">
-          © {new Date().getFullYear()} arabfr-shop-connect. All rights reserved.
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 };
