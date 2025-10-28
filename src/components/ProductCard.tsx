@@ -30,12 +30,12 @@ export const ProductCard = ({ product, onEdit, onDelete, isAdmin }: ProductCardP
   };
 
   return (
-    <Card className="overflow-hidden">
+    <Card className="group overflow-hidden rounded-2xl border bg-white shadow-sm transition hover:shadow-lg">
       <div className="aspect-square overflow-hidden">
         <img
           src={product.image}
           alt={product.name}
-          className="h-full w-full object-cover transition-transform hover:scale-105"
+          className="h-full w-full object-cover transition-transform duration-300 ease-out group-hover:scale-105 hover:scale-105"
         />
       </div>
       <CardHeader>
@@ -74,4 +74,4 @@ export const ProductCard = ({ product, onEdit, onDelete, isAdmin }: ProductCardP
       </CardFooter>
     </Card>
   );
-};
+}

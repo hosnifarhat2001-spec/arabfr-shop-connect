@@ -29,6 +29,14 @@ const Index = () => {
     { id: 'contact', label: 'Contact' },
   ];
 
+  const [page, setPage] = useState(1);
+  const pageSize = 12;
+  const totalPages = Math.max(1, Math.ceil(products.length / pageSize));
+  const currentPage = Math.min(page, totalPages);
+  const start = (currentPage - 1) * pageSize;
+  const end = start + pageSize;
+  const paginatedProducts = products.slice(start, end);
+
   return (
     <div className="relative min-h-screen w-full">
       {/* Fixed Navbar */}
@@ -40,8 +48,8 @@ const Index = () => {
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
               className="inline-flex items-center gap-2"
             >
-              <img src="logo.png" alt="NourFashin" className="h-10 w-auto sm:h-12" />
-              <span className="text-white text-xl sm:text-2xl font-extrabold tracking-wide">NourFashin</span>
+              <img src="logo.png" alt="NourFashion" className="h-10 w-auto sm:h-12" />
+              <span className="text-white text-xl sm:text-2xl font-extrabold tracking-wide">NourFashion</span>
             </button>
           </div>
 
@@ -135,6 +143,10 @@ const Index = () => {
         <div className="container mx-auto px-4 py-12 md:py-16">
           <div className="mb-6 md:mb-8 text-center">
             <h3 className="text-2xl font-bold md:text-3xl">{t('products')}</h3>
+            <div className="mx-auto mt-3 h-1 w-16 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500" />
+            <p className="mx-auto mt-3 max-w-2xl text-sm text-muted-foreground md:text-base">
+              Découvrez notre sélection tendance, alliant style et qualité au meilleur prix.
+            </p>
           </div>
           {loading ? (
             <div className="flex min-h-[300px] items-center justify-center">
@@ -145,11 +157,41 @@ const Index = () => {
               <p className="text-muted-foreground">{t('noProducts')}</p>
             </div>
           ) : (
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              {products.map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-            </div>
+            <>
+              <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                {paginatedProducts.map((product) => (
+                  <ProductCard key={product.id} product={product} />
+                ))}
+              </div>
+              {totalPages > 1 && (
+                <div className="mt-8 flex items-center justify-center gap-2">
+                  <Button
+                    variant="outline"
+                    onClick={() => setPage((p) => Math.max(1, p - 1))}
+                    disabled={currentPage === 1}
+                  >
+                    Précédent
+                  </Button>
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+                    <Button
+                      key={p}
+                      variant={p === currentPage ? "default" : "outline"}
+                      onClick={() => setPage(p)}
+                      className="w-10"
+                    >
+                      {p}
+                    </Button>
+                  ))}
+                  <Button
+                    variant="outline"
+                    onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+                    disabled={currentPage === totalPages}
+                  >
+                    Suivant
+                  </Button>
+                </div>
+              )}
+            </>
           )}
         </div>
       </section>
