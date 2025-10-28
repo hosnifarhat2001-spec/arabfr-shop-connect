@@ -4,7 +4,6 @@ import { useProducts, Product } from '@/contexts/ProductsContext';
 import { useSettings } from '@/contexts/SettingsContext';
 import { ProductCard } from '@/components/ProductCard';
 import { ProductForm } from '@/components/ProductForm';
-import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -55,7 +54,7 @@ const Admin = () => {
       if (error || !data) {
         toast({
           title: t('error'),
-          description: 'You do not have admin access',
+          description: "Vous n'avez pas l'accès administrateur",
           variant: 'destructive'
         });
         navigate('/');
@@ -113,7 +112,7 @@ const Admin = () => {
   };
 
   const whatsappSchema = z.string()
-    .regex(/^[0-9]{10,15}$/, 'Phone number must be 10-15 digits without spaces or special characters')
+    .regex(/^[0-9]{10,15}$/, 'Le numéro doit contenir 10 à 15 chiffres sans espaces ni caractères spéciaux')
     .optional()
     .or(z.literal(''));
 
@@ -165,7 +164,6 @@ const Admin = () => {
             <h1 className="text-2xl font-bold">{t('adminDashboard')}</h1>
           </div>
           <div className="flex items-center gap-2">
-            <LanguageSwitcher />
             <Button variant="ghost" size="icon" onClick={handleSignOut}>
               <LogOut className="h-5 w-5" />
             </Button>

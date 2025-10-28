@@ -19,16 +19,16 @@ const Footer = () => {
           </p>
         </div>
         <div>
-          <h4 className="text-lg font-semibold">Links</h4>
+          <h4 className="text-lg font-semibold">Liens</h4>
           <ul className="mt-2 space-y-2 text-sm">
             <li>
-              <a href="/" className="text-muted-foreground hover:text-foreground">Home</a>
+              <a href="/" className="text-muted-foreground hover:text-foreground">Accueil</a>
             </li>
             <li>
               <a href="/products" className="text-muted-foreground hover:text-foreground">{t('products')}</a>
             </li>
             <li>
-              <a href="/admin" className="text-muted-foreground hover:text-foreground">Admin</a>
+              <a href="/admin" className="text-muted-foreground hover:text-foreground">Administration</a>
             </li>
           </ul>
         </div>
@@ -52,7 +52,7 @@ const Footer = () => {
       </div>
       <div className="border-t">
         <div className="container mx-auto px-4 py-6 text-center text-sm text-muted-foreground">
-          © {year} arabfr-shop-connect. All rights reserved.
+          © {year} arabfr-shop-connect. Tous droits réservés.
         </div>
       </div>
     </footer>

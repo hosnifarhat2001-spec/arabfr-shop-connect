@@ -1,7 +1,6 @@
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useProducts } from '@/contexts/ProductsContext';
 import { ProductCard } from '@/components/ProductCard';
-import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -22,7 +21,7 @@ const Products = () => {
             </Button>
             <h1 className="text-2xl font-bold">{t('products')}</h1>
           </div>
-          <LanguageSwitcher />
+          
         </div>
       </header>
 
