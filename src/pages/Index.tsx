@@ -15,7 +15,7 @@ const Index = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const backgroundUrl =
-    "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=2069&auto=format&fit=crop";
+    "/cls1.jpg";
 
   const scrollTo = (id: string) => {
     const el = document.getElementById(id);
