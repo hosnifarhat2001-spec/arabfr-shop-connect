@@ -127,29 +127,7 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Section À propos */}
-      <section id="about" className="relative z-10 bg-background">
-        <div className="container mx-auto px-4 py-12 md:py-16">
-          <div className="mx-auto max-w-3xl text-center">
-            <h3 className="text-2xl font-bold md:text-3xl">À propos</h3>
-            <p className="mt-3 text-muted-foreground">
-              Découvrez notre histoire et ce qui nourrit notre passion pour le style et la qualité.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Section Services */}
-      <section id="services" className="relative z-10 bg-background">
-        <div className="container mx-auto px-4 py-12 md:py-16">
-          <div className="mx-auto max-w-3xl text-center">
-            <h3 className="text-2xl font-bold md:text-3xl">Services</h3>
-            <p className="mt-3 text-muted-foreground">
-              Des collections sélectionnées avec soin, une livraison rapide et un support à votre écoute.
-            </p>
-          </div>
-        </div>
-      </section>
+      
 
       {/* Products Section */
       }
@@ -173,6 +151,55 @@ const Index = () => {
               ))}
             </div>
           )}
+        </div>
+      </section>
+
+      {/* Section Infos (À propos & Services) */}
+      <section className="relative z-10 bg-background">
+        <div className="container mx-auto px-4 py-12 md:py-16">
+          <div className="mx-auto mb-10 max-w-2xl text-center">
+            <h3 className="text-3xl font-bold md:text-4xl">En savoir plus</h3>
+            <p className="mt-3 text-muted-foreground">Découvrez qui nous sommes et ce que nous offrons.</p>
+          </div>
+          <div className="grid gap-6 md:grid-cols-2">
+            {/* Card À propos */}
+            <div className="group relative overflow-hidden rounded-2xl border bg-white p-6 shadow-sm transition hover:shadow-lg">
+              <div className="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full bg-gradient-to-br from-indigo-200 to-purple-200 opacity-60 blur-2xl" />
+              <div className="flex items-start gap-4">
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-600 text-white shadow-md">NF</div>
+                <div>
+                  <h4 className="text-xl font-semibold">À propos</h4>
+                  <p className="mt-2 text-muted-foreground">
+                    Découvrez notre histoire et ce qui nourrit notre passion pour le style et la qualité.
+                  </p>
+                </div>
+              </div>
+              <div className="mt-4">
+                <Button variant="outline" onClick={() => navigate('/about')}>
+                  En savoir plus
+                </Button>
+              </div>
+            </div>
+
+            {/* Card Services */}
+            <div className="group relative overflow-hidden rounded-2xl border bg-white p-6 shadow-sm transition hover:shadow-lg">
+              <div className="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full bg-gradient-to-br from-emerald-200 to-teal-200 opacity-60 blur-2xl" />
+              <div className="flex items-start gap-4">
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-600 text-white shadow-md">SV</div>
+                <div>
+                  <h4 className="text-xl font-semibold">Services</h4>
+                  <p className="mt-2 text-muted-foreground">
+                    Des collections sélectionnées avec soin, une livraison rapide et un support à votre écoute.
+                  </p>
+                </div>
+              </div>
+              <div className="mt-4">
+                <Button variant="outline" onClick={() => navigate('/services')}>
+                  Nos services
+                </Button>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
