@@ -132,23 +132,27 @@ const Index = () => {
 
       {/* Hero Section */}
       <section 
-        className="relative min-h-screen flex items-center justify-center bg-cover bg-center bg-fixed"
-        style={{ 
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${backgroundUrl})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-          backgroundAttachment: 'fixed',
-          padding: '0 1rem',
-          marginTop: '-4rem',
-          paddingTop: '4rem',
-          width: '100%',
-          minHeight: '100vh',
+        className="relative flex items-center justify-center w-full min-h-screen overflow-hidden"
+        style={{
           position: 'relative',
-          overflow: 'hidden' as const
+          height: '100vh',
+          width: '100%',
+          marginTop: '-4rem',
+          paddingTop: '4rem'
         }}
       >
-        <div className="container mx-auto px-4 text-center text-white">
+        <div 
+          className="absolute inset-0 w-full h-full z-0"
+          style={{
+            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${backgroundUrl})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center center',
+            backgroundRepeat: 'no-repeat',
+            backgroundAttachment: 'fixed',
+          }}
+        />
+      
+        <div className="container mx-auto px-4 text-center text-white relative z-10">
           <h1 className="text-4xl md:text-6xl font-bold mb-6">Bienvenue chez SaraMode</h1>
           <p className="text-xl md:text-2xl mb-8 max-w-2xl mx-auto">
             Découvrez notre collection exclusive de vêtements tendance pour toutes les occasions
