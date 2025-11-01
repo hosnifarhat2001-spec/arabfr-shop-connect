@@ -15,18 +15,8 @@ const Index = () => {
   const { addToCart } = useCart();
   const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
-
+  const isScrolled = true; // Always show black background
   const backgroundUrl = "/cls1.jpg";
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
-    };
-    
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   const scrollTo = (id: string) => {
     const el = document.getElementById(id);
@@ -142,11 +132,20 @@ const Index = () => {
 
       {/* Hero Section */}
       <section 
-        className="relative h-screen flex items-center justify-center bg-cover bg-center"
+        className="relative min-h-screen flex items-center justify-center bg-cover bg-center bg-fixed"
         style={{ 
           backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${backgroundUrl})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          backgroundAttachment: 'fixed',
+          padding: '0 1rem',
           marginTop: '-4rem',
-          paddingTop: '4rem'
+          paddingTop: '4rem',
+          width: '100%',
+          minHeight: '100vh',
+          position: 'relative',
+          overflow: 'hidden' as const
         }}
       >
         <div className="container mx-auto px-4 text-center text-white">
