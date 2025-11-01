@@ -4,7 +4,7 @@ import { useCart } from '@/contexts/CartContext';
 import { ProductCard } from '@/components/ProductCard';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Menu, X, ShoppingCart, Truck, Shield, RefreshCw, Check, MessageCircle, Phone, Mail, MapPin } from 'lucide-react';
 import Cart from '@/components/Cart';
 import Footer from '@/components/Footer';
@@ -15,12 +15,26 @@ const Index = () => {
   const { addToCart } = useCart();
   const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [currentPage, setPage] = useState(1);
+  const itemsPerPage = 8;
   const isScrolled = true; // Always show black background
   const backgroundUrl = "/cls1.jpg";
 
+  // Calculate pagination
+  const totalPages = Math.max(1, Math.ceil(products.length / itemsPerPage));
+  const paginatedProducts = useMemo(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    return products.slice(startIndex, startIndex + itemsPerPage);
+  }, [products, currentPage, itemsPerPage]);
+
   const scrollTo = (id: string) => {
     const el = document.getElementById(id);
-    el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (el) {
+      window.scrollTo({
+        top: el.offsetTop,
+        behavior: 'smooth'
+      });
+    }
     setMobileOpen(false);
   };
 
@@ -30,14 +44,6 @@ const Index = () => {
     { id: 'about', label: 'À propos' },
     { id: 'contact', label: 'Contact' },
   ];
-
-  const [page, setPage] = useState(1);
-  const pageSize = 12;
-  const totalPages = Math.max(1, Math.ceil(products.length / pageSize));
-  const currentPage = Math.min(page, totalPages);
-  const start = (currentPage - 1) * pageSize;
-  const end = start + pageSize;
-  const paginatedProducts = products.slice(start, end);
 
   const services = [
     {
@@ -131,47 +137,42 @@ const Index = () => {
       </header>
 
       {/* Hero Section */}
-      <section 
-        className="relative flex items-center justify-center w-full min-h-screen overflow-hidden"
-        style={{
-          position: 'relative',
-          height: '100vh',
-          width: '100%',
-          marginTop: '-4rem',
-          paddingTop: '4rem'
-        }}
-      >
+      <section className="relative w-full min-h-screen flex items-center justify-center overflow-hidden">
+        {/* Background Image with Overlay */}
         <div 
-          className="absolute inset-0 w-full h-full z-0"
+          className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat"
           style={{
             backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${backgroundUrl})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center center',
-            backgroundRepeat: 'no-repeat',
             backgroundAttachment: 'fixed',
           }}
         />
-      
-        <div className="container mx-auto px-4 text-center text-white relative z-10">
-          <h1 className="text-4xl md:text-6xl font-bold mb-6">Bienvenue chez SaraMode</h1>
-          <p className="text-xl md:text-2xl mb-8 max-w-2xl mx-auto">
-            Découvrez notre collection exclusive de vêtements tendance pour toutes les occasions
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button 
-              size="lg" 
-              className="bg-white text-gray-900 hover:bg-gray-100"
-              onClick={() => scrollTo('products')}
-            >
-              Voir les produits
-            </Button>
-            <Button 
-              size="lg"
-              className="bg-white text-gray-900 hover:bg-gray-100 border-white"
-              onClick={() => scrollTo('contact')}
-            >
-              Nous contacter
-            </Button>
+        
+        {/* Content Container */}
+        <div className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="space-y-8">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white drop-shadow-lg">
+              Bienvenue chez SaraMode
+            </h1>
+            <p className="text-xl md:text-2xl text-gray-200 max-w-3xl mx-auto">
+              Découvrez notre collection exclusive de vêtements tendance pour toutes les occasions
+            </p>
+            <div className="flex flex-col sm:flex-row justify-center gap-4 pt-4">
+              <Button 
+                size="lg" 
+                className="bg-white text-gray-900 hover:bg-gray-100 px-8 py-6 text-lg font-medium transition-all duration-300 transform hover:scale-105"
+                onClick={() => scrollTo('products')}
+              >
+                Voir les produits
+              </Button>
+              <Button 
+                size="lg"
+                variant="outline"
+                className="bg-transparent text-white border-2 border-white hover:bg-white/10 px-8 py-6 text-lg font-medium transition-all duration-300 transform hover:scale-105"
+                onClick={() => scrollTo('contact')}
+              >
+                Nous contacter
+              </Button>
+            </div>
           </div>
         </div>
       </section>
