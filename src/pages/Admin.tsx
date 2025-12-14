@@ -78,7 +78,13 @@ const Admin = () => {
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
-    navigate('/');
+    navigate('/auth');
+  };
+
+  const handleBackToDashboard = () => {
+    setShowForm(false);
+    setShowSettings(false);
+    setEditingProduct(null);
   };
 
   const handleSubmit = async (productData: Omit<Product, 'id'>) => {
@@ -205,9 +211,11 @@ const Admin = () => {
       <header className="border-b">
         <div className="container mx-auto flex items-center justify-between p-4">
           <div className="flex items-center gap-4">
-            <Button variant="ghost" size="icon" onClick={() => navigate('/')}>
-              <ArrowLeft className="h-5 w-5" />
-            </Button>
+            {(showForm || showSettings) && (
+              <Button variant="ghost" size="icon" onClick={handleBackToDashboard}>
+                <ArrowLeft className="h-5 w-5" />
+              </Button>
+            )}
             <h1 className="text-2xl font-bold">{t('adminDashboard')}</h1>
           </div>
           <div className="flex items-center gap-2">
