@@ -38,12 +38,21 @@ const Index = () => {
     setMobileOpen(false);
   };
 
-  const sections = [
-    { id: 'products', label: t('products') },
-    { id: 'services', label: 'Services' },
-    { id: 'about', label: 'À propos' },
-    { id: 'contact', label: 'Contact' },
+  const navItems = [
+    { id: 'products', label: t('products'), isPage: true, path: '/products' },
+    { id: 'services', label: 'Services', isPage: false },
+    { id: 'about', label: 'À propos', isPage: false },
+    { id: 'contact', label: 'Contact', isPage: false },
   ];
+
+  const handleNavClick = (item: { id: string; isPage: boolean; path?: string }) => {
+    if (item.isPage && item.path) {
+      navigate(item.path);
+    } else {
+      scrollTo(item.id);
+    }
+    setMobileOpen(false);
+  };
 
   const services = [
     {
@@ -93,10 +102,10 @@ const Index = () => {
 
             {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center space-x-6">
-              {sections.map((item) => (
+              {navItems.map((item) => (
                 <button
                   key={item.id}
-                  onClick={() => scrollTo(item.id)}
+                  onClick={() => handleNavClick(item)}
                   className="text-white/90 hover:text-white text-sm font-medium transition-colors"
                 >
                   {item.label}
@@ -121,10 +130,10 @@ const Index = () => {
           {mobileOpen && (
             <div className="md:hidden mt-4 pb-2">
               <div className="flex flex-col space-y-2">
-                {sections.map((item) => (
+                {navItems.map((item) => (
                   <button
                     key={item.id}
-                    onClick={() => scrollTo(item.id)}
+                    onClick={() => handleNavClick(item)}
                     className="w-full text-left px-4 py-2 text-white/90 hover:text-white hover:bg-white/10 rounded-md transition-colors"
                   >
                     {item.label}
@@ -252,6 +261,17 @@ const Index = () => {
                   </div>
                 </div>
               )}
+
+              {/* Show More Button */}
+              <div className="mt-10 text-center">
+                <Button 
+                  size="lg"
+                  className="bg-indigo-600 hover:bg-indigo-700 px-8"
+                  onClick={() => navigate('/products')}
+                >
+                  Voir plus de produits
+                </Button>
+              </div>
             </>
           )}
         </div>
