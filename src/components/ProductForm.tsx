@@ -225,6 +225,7 @@ export const ProductForm = ({ product, onSubmit, onCancel }: ProductFormProps) =
                 name="size"
                 value={formData.size}
                 onChange={handleChange}
+                placeholder="45,30,60 ou XL,L,M,S"
                 required
               />
             </div>
