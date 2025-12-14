@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useProducts, Product } from '@/contexts/ProductsContext';
 import { useSettings } from '@/contexts/SettingsContext';
 import { ProductCard } from '@/components/ProductCard';
 import { ProductForm } from '@/components/ProductForm';
+import { SearchInput } from '@/components/SearchInput';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -24,6 +25,7 @@ const Admin = () => {
   const [tempWhatsappNumber, setTempWhatsappNumber] = useState(whatsappNumber);
   const [isAdmin, setIsAdmin] = useState(false);
   const [checkingAuth, setCheckingAuth] = useState(true);
+  const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -141,6 +143,17 @@ const Admin = () => {
     }
   };
 
+  const filteredProducts = useMemo(() => {
+    if (!searchQuery.trim()) return products;
+    const query = searchQuery.toLowerCase();
+    return products.filter(
+      (product) =>
+        product.name.toLowerCase().includes(query) ||
+        product.category.toLowerCase().includes(query) ||
+        product.description.toLowerCase().includes(query)
+    );
+  }, [products, searchQuery]);
+
   if (checkingAuth || loading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
@@ -219,9 +232,9 @@ const Admin = () => {
           </div>
         ) : (
           <>
-            <div className="mb-6 flex items-center justify-between">
+            <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <h2 className="text-xl font-semibold">{t('products')}</h2>
-              <div className="flex gap-2">
+              <div className="flex flex-wrap gap-2">
                 <Button variant="outline" onClick={() => setShowSettings(true)} className="gap-2">
                   <Settings className="h-4 w-4" />
                   {t('settings')}
@@ -233,13 +246,21 @@ const Admin = () => {
               </div>
             </div>
 
-            {products.length === 0 ? (
+            <div className="mb-6">
+              <SearchInput
+                value={searchQuery}
+                onChange={setSearchQuery}
+                placeholder={t('searchProducts')}
+              />
+            </div>
+
+            {filteredProducts.length === 0 ? (
               <div className="flex min-h-[400px] items-center justify-center">
-                <p className="text-muted-foreground">{t('noProducts')}</p>
+                <p className="text-muted-foreground">{searchQuery ? t('noProducts') : t('noProducts')}</p>
               </div>
             ) : (
               <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                {products.map((product) => (
+                {filteredProducts.map((product) => (
                   <ProductCard
                     key={product.id}
                     product={product}
