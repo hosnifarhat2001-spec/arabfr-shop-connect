@@ -243,7 +243,7 @@ const Index = () => {
                           <Button
                             key={pageNum}
                             variant={pageNum === currentPage ? "default" : "outline"}
-                            onClick={() => setPage(pageNum)}
+                            onClick={() => navigate('/products')}
                             className="w-10 h-10 p-0 flex items-center justify-center"
                           >
                             {pageNum}
@@ -253,8 +253,7 @@ const Index = () => {
                     </div>
                     <Button
                       variant="outline"
-                      onClick={() => setPage(p => Math.min(totalPages, p + 1))}
-                      disabled={currentPage === totalPages}
+                      onClick={() => navigate('/products')}
                     >
                       Suivant
                     </Button>
