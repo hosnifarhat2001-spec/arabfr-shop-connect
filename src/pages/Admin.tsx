@@ -9,7 +9,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Plus, ArrowLeft, Settings, LogOut, Phone } from 'lucide-react';
+import { Plus, ArrowLeft, Settings, LogOut, Phone, Filter, X } from 'lucide-react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
@@ -26,6 +27,10 @@ const Admin = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [checkingAuth, setCheckingAuth] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [minPrice, setMinPrice] = useState<string>('');
+  const [maxPrice, setMaxPrice] = useState<string>('');
+  const [showFilters, setShowFilters] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -143,16 +148,45 @@ const Admin = () => {
     }
   };
 
+  const categories = useMemo(() => {
+    const cats = [...new Set(products.map(p => p.category))];
+    return cats.sort();
+  }, [products]);
+
   const filteredProducts = useMemo(() => {
-    if (!searchQuery.trim()) return products;
-    const query = searchQuery.toLowerCase();
-    return products.filter(
-      (product) =>
-        product.name.toLowerCase().includes(query) ||
-        product.category.toLowerCase().includes(query) ||
-        product.description.toLowerCase().includes(query)
-    );
-  }, [products, searchQuery]);
+    return products.filter((product) => {
+      // Text search
+      if (searchQuery.trim()) {
+        const query = searchQuery.toLowerCase();
+        if (!product.name.toLowerCase().includes(query) &&
+            !product.category.toLowerCase().includes(query) &&
+            !product.description.toLowerCase().includes(query)) {
+          return false;
+        }
+      }
+      // Category filter
+      if (selectedCategory !== 'all' && product.category !== selectedCategory) {
+        return false;
+      }
+      // Price filters
+      if (minPrice && product.price < parseFloat(minPrice)) {
+        return false;
+      }
+      if (maxPrice && product.price > parseFloat(maxPrice)) {
+        return false;
+      }
+      return true;
+    });
+  }, [products, searchQuery, selectedCategory, minPrice, maxPrice]);
+
+  const clearFilters = () => {
+    setSelectedCategory('all');
+    setMinPrice('');
+    setMaxPrice('');
+    setSearchQuery('');
+  };
+
+  const hasActiveFilters = selectedCategory !== 'all' || minPrice || maxPrice || searchQuery;
 
   if (checkingAuth || loading) {
     return (
@@ -246,12 +280,73 @@ const Admin = () => {
               </div>
             </div>
 
-            <div className="mb-6">
-              <SearchInput
-                value={searchQuery}
-                onChange={setSearchQuery}
-                placeholder={t('searchProducts')}
-              />
+            <div className="mb-6 space-y-4">
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+                <div className="flex-1">
+                  <SearchInput
+                    value={searchQuery}
+                    onChange={setSearchQuery}
+                    placeholder={t('searchProducts')}
+                  />
+                </div>
+                <Button
+                  variant="outline"
+                  onClick={() => setShowFilters(!showFilters)}
+                  className="gap-2"
+                >
+                  <Filter className="h-4 w-4" />
+                  {t('filters')}
+                </Button>
+                {hasActiveFilters && (
+                  <Button variant="ghost" onClick={clearFilters} className="gap-2">
+                    <X className="h-4 w-4" />
+                    {t('clearFilters')}
+                  </Button>
+                )}
+              </div>
+
+              {showFilters && (
+                <Card className="p-4">
+                  <div className="grid gap-4 sm:grid-cols-3">
+                    <div className="space-y-2">
+                      <Label>{t('filterByCategory')}</Label>
+                      <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+                        <SelectTrigger>
+                          <SelectValue placeholder={t('allCategories')} />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="all">{t('allCategories')}</SelectItem>
+                          {categories.map((cat) => (
+                            <SelectItem key={cat} value={cat}>
+                              {cat}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="space-y-2">
+                      <Label>{t('minPrice')}</Label>
+                      <Input
+                        type="number"
+                        min="0"
+                        placeholder="0"
+                        value={minPrice}
+                        onChange={(e) => setMinPrice(e.target.value)}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>{t('maxPrice')}</Label>
+                      <Input
+                        type="number"
+                        min="0"
+                        placeholder="∞"
+                        value={maxPrice}
+                        onChange={(e) => setMaxPrice(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                </Card>
+              )}
             </div>
 
             {filteredProducts.length === 0 ? (
